@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import PasswordHistory from'./passwordHistory';
+import PasswordHistory from './PasswordHistory';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -68,22 +68,13 @@ function App() {
                 handleGeneratePassword={handleGeneratePassword}
                 password={password}
                 setPassword={setPassword}
-                setPasswordHistory={setPasswordHistory}
-                passwordHistory={passwordHistory}
+  
                 checkPasswordStrength={checkPasswordStrength}
                 copyToClipboard={copyToClipboard}
               />
             }
           />
-          <Route
-            path="/history"
-            element={
-              <History
-                passwordHistory={passwordHistory}
-                copyToClipboard={copyToClipboard}
-              />
-            }
-          />
+          <Route path="/history" element={<PasswordHistory passwordHistory={passwordHistory} />} />
         </Routes>
       </div>
     </Router>
@@ -96,11 +87,13 @@ function Home({
   handleGeneratePassword,
   password,
   setPassword,
-  setPasswordHistory,
-  passwordHistory,
+
   checkPasswordStrength,
   copyToClipboard
 }) {
+    const handleCopyPassword =() => {
+        copyToClipboard (password);
+    }
   return (
     <div>
       <label htmlFor="numCharactersInput">Number of Characters:</label>
@@ -114,28 +107,10 @@ function Home({
       <button onClick={handleGeneratePassword}>Generate Password</button>
       <div>
         <h2>Generated Password: {password}</h2>
-        <h2>Previous Passwords</h2>
-        {passwordHistory.map((prevPassword, index) => (
-          <div key={index}>
-            {prevPassword}
-            <button onClick={() => copyToClipboard(prevPassword)}>Copy</button>
-          </div>
-        ))}
-
         <div className="password-strength">Password Strength: {checkPasswordStrength(password)}</div>
       </div>
     </div>
   );
 }
 
-function PasswordHistory({ passwordHistory }) {
-    return (
-        <div>
-            <h2>Password History</h2>
-            {passwordHistory.map((prevPassword, index) => (
-          <div key={index}>{prevPassword}</div>  
-        ))}
-        </div>
-    );
-}
 export default App;
