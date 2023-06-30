@@ -2,4 +2,8 @@ body {
     background-color: green;
     color: black;
   }
+  .password-strength {
+    font-size: 20px;
+    text-align: right;
+  }
   
