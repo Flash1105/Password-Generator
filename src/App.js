@@ -3,28 +3,24 @@ import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PasswordHistory from './PasswordHistory';
+import { generateRandomPassword, generateWordBasedPassword } from './passwordUtils';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
   const [password, setPassword] = useState('');
   const [passwordHistory, setPasswordHistory] = useState([]);
 
-  const generateRandomPassword = (numCharacters) => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$?";
-    let password = "";
-
-    for (let i = 0; i < numCharacters; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      password += characters.charAt(randomIndex);
+  const handleGeneratePassword = (notes, isWordBased) => {
+    let generatedPassword;
+    if (isWordBased) {
+      generatedPassword = generateWordBasedPassword();
+    } else {
+      generatedPassword = generateRandomPassword(numCharacters);
     }
 
-    return password;
-  };
-
-  const handleGeneratePassword = () => {
-    const generatedPassword = generateRandomPassword(numCharacters);
+    const entry = { password: generatedPassword, notes: notes };
     setPassword(generatedPassword);
-    setPasswordHistory([...passwordHistory, generatedPassword]);
+    setPasswordHistory([...passwordHistory, entry]);
   };
 
   const checkPasswordStrength = (password) => {
@@ -55,6 +51,9 @@ function App() {
             <li>
               <Link to="/history">Password History</Link>
             </li>
+            <li>
+              <Link to="/word-based">Word-based Password</Link>
+            </li>
           </ul>
         </nav>
 
@@ -68,13 +67,28 @@ function App() {
                 handleGeneratePassword={handleGeneratePassword}
                 password={password}
                 setPassword={setPassword}
-  
                 checkPasswordStrength={checkPasswordStrength}
                 copyToClipboard={copyToClipboard}
               />
             }
           />
           <Route path="/history" element={<PasswordHistory passwordHistory={passwordHistory} />} />
+          <Route
+            path="/word-based"
+            element={
+              <Home
+                numCharacters={numCharacters}
+                setNumCharacters={setNumCharacters}
+                handleGeneratePassword={(notes) =>
+                  handleGeneratePassword(notes, true)
+                }
+                password={password}
+                setPassword={setPassword}
+                checkPasswordStrength={checkPasswordStrength}
+                copyToClipboard={copyToClipboard}
+              />
+            }
+          />
         </Routes>
       </div>
     </Router>
@@ -87,13 +101,20 @@ function Home({
   handleGeneratePassword,
   password,
   setPassword,
-
   checkPasswordStrength,
   copyToClipboard
 }) {
-    const handleCopyPassword =() => {
-        copyToClipboard (password);
-    }
+  const [notes, setNotes] = useState('');
+
+  const handleCopyPassword = () => {
+    copyToClipboard(password);
+  };
+
+  const handleGeneratePasswordWithNotes = () => {
+    handleGeneratePassword(notes, false);
+    setNotes('');
+  };
+
   return (
     <div>
       <label htmlFor="numCharactersInput">Number of Characters:</label>
@@ -104,11 +125,22 @@ function Home({
         onChange={(e) => setNumCharacters(parseInt(e.target.value))}
       />
 
-      <button onClick={handleGeneratePassword}>Generate Password</button>
+      <button onClick={handleGeneratePasswordWithNotes}>Generate Password</button>
       <div>
         <h2>Generated Password: {password}</h2>
-        <div className="password-strength">Password Strength: {checkPasswordStrength(password)}</div>
+        <button onClick={handleCopyPassword}>Copy</button>
+        <div className="password-strength">
+          Password Strength: {checkPasswordStrength(password)}
+        </div>
       </div>
+
+      <label htmlFor="notesInput">Notes:</label>
+      <input
+        id="notesInput"
+        type="text"
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
     </div>
   );
 }
