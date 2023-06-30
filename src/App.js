@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
-import './App.css';
+
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -27,9 +27,18 @@ function App() {
   };
 
   const checkPasswordStrength = (password) => {
-const PasswordStrength = zxcvbn(password);
-const lengthFactor = Math.min(password.length / 10, 1)
-return PasswordStrength.score * lengthFactor
+    const passwordStrength = zxcvbn(password);
+    const lengthFactor = Math.min(password.length / 10, 1);
+    return passwordStrength.score * lengthFactor;
+  };
+
+  const copyToClipboard = async (password) => {
+    try {
+      await navigator.clipboard.writeText(password);
+      console.log('Password copied to clipboard!');
+    } catch (error) {
+      console.error('Failed to copy password to clipboard:', error);
+    }
   };
 
   return (
@@ -49,9 +58,12 @@ return PasswordStrength.score * lengthFactor
         <h2>Generated Password: {password}</h2>
         <h2>Previous Passwords</h2>
         {passwordHistory.map((prevPassword, index) => (
-          <div key={index}>{prevPassword}</div>
+          <div key={index}>
+            {prevPassword}
+            <button onClick={() => copyToClipboard(prevPassword)}>Copy</button>
+          </div>
         ))}
-        <div>Password Strength: {checkPasswordStrength(password)}</div>
+
         <div className="password-strength">Password Strength: {checkPasswordStrength(password)}</div>
 
       </div>
