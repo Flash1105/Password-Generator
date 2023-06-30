@@ -48,8 +48,6 @@ const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
       <h1>Generated Password:</h1>
       <p>{password}</p>
       <button onClick={handleCopyClick}>Copy Password</button>
-
-      
     </div>
   );
 };
