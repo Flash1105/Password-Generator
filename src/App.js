@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 
-const [numCharacters, setNumCharacters] = useState(8); // Initial value is 8
-
 function App() {
-  // Your component logic here
+  const [numCharacters, setNumCharacters] = useState(8); // Initial value is 8
+
+  return (
+    <div>
+      <h1>Password Generator</h1>
+
+      <label htmlFor="numCharactersInput">Number of Characters:</label>
+      <input
+        id="numCharactersInput"
+        type="number"
+        value={numCharacters}
+        onChange={(e) => setNumCharacters(parseInt(e.target.value))}
+      />
+
+      
+    </div>
+  );
 }
 
 export default App;
