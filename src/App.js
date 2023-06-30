@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PasswordHistory from './PasswordHistory';
+import WordPasswordGenerator from './WordPasswordGenerator'; 
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -57,7 +58,7 @@ function App() {
               <Link to="/history">Password History</Link>
             </li>
             <li>
-                <link to="/word-password">Word Password Generator</link>
+              <Link to="/word-password">Word Password Generator</Link>
             </li>
           </ul>
         </nav>
@@ -81,7 +82,10 @@ function App() {
             path="/history"
             element={<PasswordHistory passwordHistory={passwordHistory} />}
           />
-          <Route path="/word-password" element={<WordPasswordGenerator />} />
+          <Route
+            path="/word-password"
+            element={<WordPasswordGenerator />}
+          />
         </Routes>
       </div>
     </Router>
