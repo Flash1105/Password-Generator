@@ -50,6 +50,7 @@ const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
       <p>{password}</p>
       <button onClick={handleCopyClick}>Copy Password</button>
       <button onClick={generateWordPassword}>Generate New Password</button>
+      <p>Note: Please enter any notes or context for this password before generating a new one.</p>
       <div>
         <label>Notes:</label>
         <input type="text" value={notes} onChange={handleNotesChange} />

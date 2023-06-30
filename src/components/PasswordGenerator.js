@@ -87,8 +87,10 @@ const PasswordGenerator = () => {
         <label>Generated Password:</label>
         <input type="text" value={password} readOnly />
       </div>
+
+      <p>Note: Please enter any notes or context for this password before generating a new one.</p>
     </div>
-  );
+);
 };
 
 export default PasswordGenerator;
