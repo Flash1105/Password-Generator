@@ -3,21 +3,26 @@ import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PasswordHistory from './PasswordHistory';
-import { generateRandomPassword, generateWordBasedPassword } from './passwordUtils';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
   const [password, setPassword] = useState('');
   const [passwordHistory, setPasswordHistory] = useState([]);
 
-  const handleGeneratePassword = (notes, isWordBased) => {
-    let generatedPassword;
-    if (isWordBased) {
-      generatedPassword = generateWordBasedPassword();
-    } else {
-      generatedPassword = generateRandomPassword(numCharacters);
+  const generateRandomPassword = (numCharacters) => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$?";
+    let password = "";
+
+    for (let i = 0; i < numCharacters; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      password += characters.charAt(randomIndex);
     }
 
+    return password;
+  };
+
+  const handleGeneratePassword = (notes) => {
+    const generatedPassword = generateRandomPassword(numCharacters);
     const entry = { password: generatedPassword, notes: notes };
     setPassword(generatedPassword);
     setPasswordHistory([...passwordHistory, entry]);
@@ -52,7 +57,7 @@ function App() {
               <Link to="/history">Password History</Link>
             </li>
             <li>
-              <Link to="/word-based">Word-based Password</Link>
+                <link to="/word-password">Word Password Generator</link>
             </li>
           </ul>
         </nav>
@@ -72,23 +77,11 @@ function App() {
               />
             }
           />
-          <Route path="/history" element={<PasswordHistory passwordHistory={passwordHistory} />} />
           <Route
-            path="/word-based"
-            element={
-              <Home
-                numCharacters={numCharacters}
-                setNumCharacters={setNumCharacters}
-                handleGeneratePassword={(notes) =>
-                  handleGeneratePassword(notes, true)
-                }
-                password={password}
-                setPassword={setPassword}
-                checkPasswordStrength={checkPasswordStrength}
-                copyToClipboard={copyToClipboard}
-              />
-            }
+            path="/history"
+            element={<PasswordHistory passwordHistory={passwordHistory} />}
           />
+          <Route path="/word-password" element={<WordPasswordGenerator />} />
         </Routes>
       </div>
     </Router>
@@ -111,7 +104,7 @@ function Home({
   };
 
   const handleGeneratePasswordWithNotes = () => {
-    handleGeneratePassword(notes, false);
+    handleGeneratePassword(notes);
     setNotes('');
   };
 
