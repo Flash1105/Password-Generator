@@ -63,6 +63,7 @@ function App() {
             element={
               <Home
                 numCharacters={numCharacters}
+                setNumCharacters={setNumCharacters}
                 handleGeneratePassword={handleGeneratePassword}
                 password={password}
                 setPassword={setPassword}
@@ -90,6 +91,7 @@ function App() {
 
 function Home({
   numCharacters,
+  setNumCharacters,
   handleGeneratePassword,
   password,
   setPassword,
