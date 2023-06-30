@@ -1,3 +1,4 @@
+//functional component//
 function Home({
     numCharacters,
     setNumCharacters,
@@ -24,4 +25,4 @@ function Home({
     );
   }
   
-  
+  export default Home;
