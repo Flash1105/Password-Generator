@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const WordPasswordGenerator = () => {
+const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
@@ -17,11 +17,9 @@ const WordPasswordGenerator = () => {
     const randomNumber = getRandomNumber(numberList);
 
     const generatedPassword = `${word1}-${word2}${randomNumber}`;
-    setPassword(generatedPassword);
 
-    if (generatedPassword){
-        setPasswordHistory(prevHistory =>[...prevHistory, generatedPassword]);
-    }
+    setPassword(generatedPassword);
+    setPasswordHistory(prevHistory => [...prevHistory, generatedPassword]);
   };
 
   const getRandomWord = (wordList) => {
@@ -49,7 +47,13 @@ const WordPasswordGenerator = () => {
       <h1>Generated Password:</h1>
       <p>{password}</p>
       <button onClick={handleCopyClick}>Copy Password</button>
-      <button onClick={generateWordPassword}>Generate New Password</button>
+
+      <h2>Password History:</h2>
+      <ul>
+        {passwordHistory.map((historyItem, index) => (
+          <li key={index}>{historyItem}</li>
+        ))}
+      </ul>
     </div>
   );
 };
