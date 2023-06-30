@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import PasswordHistory from'./passwordHistory';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -127,4 +128,14 @@ function Home({
   );
 }
 
+function PasswordHistory({ passwordHistory }) {
+    return (
+        <div>
+            <h2>Password History</h2>
+            {passwordHistory.map((prevPassword, index) => (
+          <div key={index}>{prevPassword}</div>  
+        ))}
+        </div>
+    );
+}
 export default App;
