@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './WordPasswordGenerator.css';
 
 const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
   const [password, setPassword] = useState('');
@@ -48,12 +49,7 @@ const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
       <p>{password}</p>
       <button onClick={handleCopyClick}>Copy Password</button>
 
-      <h2>Password History:</h2>
-      <ul>
-        {passwordHistory.map((historyItem, index) => (
-          <li key={index}>{historyItem}</li>
-        ))}
-      </ul>
+      
     </div>
   );
 };

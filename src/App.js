@@ -80,14 +80,13 @@ function App() {
               <Home
                 numCharacters={numCharacters}
                 setNumCharacters={setNumCharacters}
-                handleGeneratePassword={handleGeneratePassword}
+                handleGeneratePassword={handleGeneratePasswordWithNotes}
                 password={password}
                 setPassword={setPassword}
                 checkPasswordStrength={checkPasswordStrength}
                 copyToClipboard={copyToClipboard}
                 notes={notes}
                 setNotes={setNotes}
-                handleGeneratePasswordWithNotes={handleGeneratePasswordWithNotes}
               />
             }
           />
@@ -97,7 +96,12 @@ function App() {
           />
           <Route
             path="/word-password"
-            element={<WordPasswordGenerator setPasswordHistory={setPasswordHistory} passwordHistory={passwordHistory} />}
+            element={
+              <WordPasswordGenerator
+                setPasswordHistory={setPasswordHistory}
+                passwordHistory={passwordHistory}
+              />
+            }
           />
         </Routes>
       </div>
@@ -106,50 +110,49 @@ function App() {
 }
 
 function Home({
-    numCharacters,
-    setNumCharacters,
-    handleGeneratePassword,
-    password,
-    setPassword,
-    checkPasswordStrength,
-    copyToClipboard,
-    notes,
-    setNotes,
-    handleGeneratePasswordWithNotes
-  }) {
-    const handleCopyPassword = () => {
-      copyToClipboard(password);
-    };
-  
-    return (
+  numCharacters,
+  setNumCharacters,
+  handleGeneratePassword,
+  password,
+  setPassword,
+  checkPasswordStrength,
+  copyToClipboard,
+  notes,
+  setNotes
+}) {
+  const handleCopyPassword = () => {
+    copyToClipboard(password);
+  };
+
+  return (
+    <div>
+      <label htmlFor="numCharactersInput">Number of Characters:</label>
+      <input
+        id="numCharactersInput"
+        type="number"
+        value={numCharacters}
+        onChange={(e) => setNumCharacters(parseInt(e.target.value))}
+      />
+
+      <button onClick={handleGeneratePassword}>Generate Password</button>
+
       <div>
-        <label htmlFor="numCharactersInput">Number of Characters:</label>
-        <input
-          id="numCharactersInput"
-          type="number"
-          value={numCharacters}
-          onChange={(e) => setNumCharacters(parseInt(e.target.value))}
-        />
-  
-        <button onClick={handleGeneratePasswordWithNotes}>Generate Password</button>
-        <div>
-          <h2>Generated Password: {password}</h2>
-          <button onClick={handleCopyPassword}>Copy</button>
-          <div className="password-strength">
-            Password Strength: {checkPasswordStrength(password)}
-          </div>
+        <h2>Generated Password: {password}</h2>
+        <button onClick={handleCopyPassword}>Copy</button>
+        <div className="password-strength">
+          Password Strength: {checkPasswordStrength(password)}
         </div>
-  
-        <label htmlFor="notesInput">Notes:</label>
-        <input
-          id="notesInput"
-          type="text"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        />
       </div>
-    );
-  }
-  
+
+      <label htmlFor="notesInput">Notes:</label>
+      <input
+        id="notesInput"
+        type="text"
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+    </div>
+  );
+}
 
 export default App;
