@@ -1,6 +1,16 @@
 {
+  "name": "my-password-generator",
+  "version": "1.0.0",
+  "description": "A password generator app",
+  "scripts": {
+    "start": "react-scripts start"
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  }
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.0"
+  },
+  "license": "MIT"
 }
