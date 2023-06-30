@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "A password generator app",
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
   },
   "dependencies": {
     "faker": "^6.6.6",
