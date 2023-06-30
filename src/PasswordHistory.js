@@ -13,10 +13,13 @@ function PasswordHistory({ passwordHistory, copyToClipboard }) {
   return (
     <div>
       <h2>Password History</h2>
-      {passwordHistory.map((prevPassword, index) => (
+      {passwordHistory.map((entry, index) => (
         <div key={index}>
-          {prevPassword}
-          <button onClick={() => handleCopyToClipboard(prevPassword)}>Copy</button>
+          <div>
+            {entry.password}
+            <button onClick={() => handleCopyToClipboard(entry.password)}>Copy</button>
+          </div>
+          <div>Notes: {entry.notes}</div>
         </div>
       ))}
     </div>
