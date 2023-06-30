@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
+import './App.css';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -26,7 +27,9 @@ function App() {
   };
 
   const checkPasswordStrength = (password) => {
-
+const PasswordStrength = zxcvbn(password);
+const lengthFactor = Math.min(password.length / 10, 1)
+return PasswordStrength.score * lengthFactor
   };
 
   return (
@@ -49,6 +52,8 @@ function App() {
           <div key={index}>{prevPassword}</div>
         ))}
         <div>Password Strength: {checkPasswordStrength(password)}</div>
+        <div className="password-strength">Password Strength: {checkPasswordStrength(password)}</div>
+
       </div>
     </div>
   );
