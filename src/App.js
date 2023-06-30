@@ -84,7 +84,7 @@ function App() {
           />
           <Route
             path="/word-password"
-            element={<WordPasswordGenerator />}
+            element={<WordPasswordGenerator setPasswordHistory={setPasswordHistory} />}
           />
         </Routes>
       </div>

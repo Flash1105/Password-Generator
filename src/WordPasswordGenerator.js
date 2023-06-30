@@ -18,6 +18,10 @@ const WordPasswordGenerator = () => {
 
     const generatedPassword = `${word1}-${word2}${randomNumber}`;
     setPassword(generatedPassword);
+
+    if (generatedPassword){
+        setPasswordHistory(prevHistory =>[...prevHistory, generatedPassword]);
+    }
   };
 
   const getRandomWord = (wordList) => {
@@ -45,6 +49,7 @@ const WordPasswordGenerator = () => {
       <h1>Generated Password:</h1>
       <p>{password}</p>
       <button onClick={handleCopyClick}>Copy Password</button>
+      <button onClick={generateWordPassword}>Generate New Password</button>
     </div>
   );
 };
