@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
-
+import zxcvbn from 'zxcvbn';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -25,6 +25,10 @@ function App() {
     setPasswordHistory([...passwordHistory, generatedPassword]);
   };
 
+  const checkPasswordStrength = (password) => {
+
+  };
+
   return (
     <div>
       <h1>Password Generator</h1>
@@ -44,6 +48,7 @@ function App() {
         {passwordHistory.map((prevPassword, index) => (
           <div key={index}>{prevPassword}</div>
         ))}
+        <div>Password Strength: {checkPasswordStrength(password)}</div>
       </div>
     </div>
   );
