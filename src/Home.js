@@ -1,12 +1,27 @@
-import React from 'react';
-
-function Home() {
-  return (
-    <div>
-      <h2>Welcome to the Home Page</h2>
-      {/* Add your home page content here */}
-    </div>
-  );
-}
-
-export default Home;
+function Home({
+    numCharacters,
+    setNumCharacters,
+    handleGeneratePassword,
+    password,
+    setPassword,
+    setPasswordHistory,
+    passwordHistory,
+    checkPasswordStrength,
+    copyToClipboard
+  }) {
+    return (
+      <div>
+        <label htmlFor="numCharactersInput">Number of Characters:</label>
+        <input
+          id="numCharactersInput"
+          type="number"
+          value={numCharacters}
+          onChange={(e) => setNumCharacters(parseInt(e.target.value))}
+        />
+  
+        
+      </div>
+    );
+  }
+  
+  
