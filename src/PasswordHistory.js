@@ -17,10 +17,10 @@ function PasswordHistory({ passwordHistory, copyToClipboard }) {
         passwordHistory.map((entry, index) => (
           <div key={index}>
             <div>
-              Password: {String(entry.password)}
-              <button onClick={() => handleCopyToClipboard(String(entry.password))}>Copy</button>
+              Password: {entry.password}
+              <button onClick={() => handleCopyToClipboard(entry.password)}>Copy</button>
             </div>
-            <div>Notes: {String(entry.notes)}</div>
+            <div>Notes: {entry.notes}</div>
           </div>
         ))
       ) : (

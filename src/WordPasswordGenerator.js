@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './WordPasswordGenerator.css';
 
 const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
   const [password, setPassword] = useState('');
-
-  useEffect(() => {
-    generateWordPassword();
-  }, []);
+  const [notes, setNotes] = useState('');
 
   const generateWordPassword = () => {
     const wordList1 = ['red', 'blue', 'orange', 'green', 'yellow', 'purple', 'pink', 'brown', 'black', 'white', 'gray', 'teal', 'cyan', 'magenta', 'navy', 'turquoise', 'lavender', 'maroon', 'olive', 'salmon', 'gold', 'silver', 'indigo', 'coral', 'plum'];
@@ -20,7 +17,7 @@ const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
     const generatedPassword = `${word1}-${word2}${randomNumber}`;
 
     setPassword(generatedPassword);
-    setPasswordHistory(prevHistory => [...prevHistory, generatedPassword]);
+    setPasswordHistory(prevHistory => [...prevHistory, { password: generatedPassword, notes }]);
   };
 
   const getRandomWord = (wordList) => {
@@ -43,11 +40,20 @@ const WordPasswordGenerator = ({ setPasswordHistory, passwordHistory }) => {
       });
   };
 
+  const handleNotesChange = (e) => {
+    setNotes(e.target.value);
+  };
+
   return (
     <div>
       <h1>Generated Password:</h1>
       <p>{password}</p>
       <button onClick={handleCopyClick}>Copy Password</button>
+      <button onClick={generateWordPassword}>Generate New Password</button>
+      <div>
+        <label>Notes:</label>
+        <input type="text" value={notes} onChange={handleNotesChange} />
+      </div>
     </div>
   );
 };
