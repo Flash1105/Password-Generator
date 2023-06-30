@@ -28,7 +28,8 @@ function App() {
     const entry = { password: generatedPassword, notes: notes };
     setPassword(generatedPassword);
     setPasswordHistory([...passwordHistory, entry]);
-  };
+ 
+};
 
   const checkPasswordStrength = (password) => {
     const passwordStrength = zxcvbn(password);
@@ -151,6 +152,8 @@ function Home({
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
       />
+
+<p>Note: Please enter any notes or context for this password before generating a new one.</p>
     </div>
   );
 }
