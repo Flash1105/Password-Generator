@@ -9,7 +9,7 @@ function App() {
   const [passwordHistory, setPasswordHistory] = useState([]);
 
   const generateRandomPassword = (numCharacters) => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$?.";
     let password = "";
 
     for (let i = 0; i < numCharacters; i++) {
