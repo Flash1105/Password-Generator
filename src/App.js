@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 import zxcvbn from 'zxcvbn';
-
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   const [numCharacters, setNumCharacters] = useState(8);
@@ -42,9 +42,64 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Password Generator</h1>
+    <Router>
+      <div>
+        <h1>Password Generator</h1>
 
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/history">Password History</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                numCharacters={numCharacters}
+                handleGeneratePassword={handleGeneratePassword}
+                password={password}
+                setPassword={setPassword}
+                setPasswordHistory={setPasswordHistory}
+                passwordHistory={passwordHistory}
+                checkPasswordStrength={checkPasswordStrength}
+                copyToClipboard={copyToClipboard}
+              />
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <History
+                passwordHistory={passwordHistory}
+                copyToClipboard={copyToClipboard}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+function Home({
+  numCharacters,
+  handleGeneratePassword,
+  password,
+  setPassword,
+  setPasswordHistory,
+  passwordHistory,
+  checkPasswordStrength,
+  copyToClipboard
+}) {
+  return (
+    <div>
       <label htmlFor="numCharactersInput">Number of Characters:</label>
       <input
         id="numCharactersInput"
@@ -65,7 +120,6 @@ function App() {
         ))}
 
         <div className="password-strength">Password Strength: {checkPasswordStrength(password)}</div>
-
       </div>
     </div>
   );
