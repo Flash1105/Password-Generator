@@ -17,7 +17,7 @@ function App() {
 
   const fetchPasswordHistory = async () => {
     try {
-      const response = await fetch('http://localhost:3000/passwords');
+      const response = await fetch('http://localhost:3001/passwords');
       const data = await response.json();
       setPasswordHistory(data);
     } catch (error) {
@@ -47,12 +47,13 @@ function App() {
 
   const savePassword = async (entry) => {
     try {
-      const response = await fetch('http://localhost:3000/passwords', {
+      const generatedEntry = { password: entry.password, notes: entry.notes };
+      const response = await fetch('http://localhost:3001/passwords', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(entry),
+        body: JSON.stringify(generatedEntry),
       });
       if (response.ok) {
         fetchPasswordHistory();
@@ -64,7 +65,7 @@ function App() {
       console.error('Failed to save password:', error);
     }
   };
-  
+
   const checkPasswordStrength = (password) => {
     const passwordStrength = zxcvbn(password);
     const lengthFactor = Math.min(password.length / 10, 1);
@@ -117,6 +118,7 @@ function App() {
                 copyToClipboard={copyToClipboard}
                 notes={notes}
                 setNotes={setNotes}
+                savePassword={savePassword} 
               />
             }
           />
@@ -130,7 +132,7 @@ function App() {
               <WordPasswordGenerator
                 setPasswordHistory={setPasswordHistory}
                 passwordHistory={passwordHistory}
-                savePassword={savePassword} // Added the savePassword function as a prop
+                savePassword={savePassword} 
               />
             }
           />
@@ -150,6 +152,7 @@ function Home({
   copyToClipboard,
   notes,
   setNotes,
+  savePassword, 
 }) {
   const handleCopyPassword = () => {
     copyToClipboard(password);
