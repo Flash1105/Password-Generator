@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import zxcvbn from 'zxcvbn';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PasswordHistory from './PasswordHistory';
@@ -10,6 +10,20 @@ function App() {
   const [password, setPassword] = useState('');
   const [passwordHistory, setPasswordHistory] = useState([]);
   const [notes, setNotes] = useState('');
+
+  useEffect(() => {
+    fetchPasswordHistory();
+  }, []);
+
+  const fetchPasswordHistory = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/passwords');
+      const data = await response.json();
+      setPasswordHistory(data);
+    } catch (error) {
+      console.error('Failed to fetch password history:', error);
+    }
+  };
 
   const generateRandomPassword = (numCharacters) => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$?";
@@ -23,14 +37,34 @@ function App() {
     return password;
   };
 
-  const handleGeneratePassword = (notes) => {
+  const handleGeneratePassword = () => {
     const generatedPassword = generateRandomPassword(numCharacters);
     const entry = { password: generatedPassword, notes: notes };
     setPassword(generatedPassword);
-    setPasswordHistory([...passwordHistory, entry]);
- 
-};
+    setNotes('');
+    savePassword(entry);
+  };
 
+  const savePassword = async (entry) => {
+    try {
+      const response = await fetch('http://localhost:3000/passwords', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(entry),
+      });
+      if (response.ok) {
+        fetchPasswordHistory();
+        console.log('Password saved successfully!');
+      } else {
+        console.error('Failed to save password.');
+      }
+    } catch (error) {
+      console.error('Failed to save password:', error);
+    }
+  };
+  
   const checkPasswordStrength = (password) => {
     const passwordStrength = zxcvbn(password);
     const lengthFactor = Math.min(password.length / 10, 1);
@@ -48,11 +82,6 @@ function App() {
 
   const handleCopyPassword = () => {
     copyToClipboard(password);
-  };
-
-  const handleGeneratePasswordWithNotes = () => {
-    handleGeneratePassword(notes);
-    setNotes('');
   };
 
   return (
@@ -81,7 +110,7 @@ function App() {
               <Home
                 numCharacters={numCharacters}
                 setNumCharacters={setNumCharacters}
-                handleGeneratePassword={handleGeneratePasswordWithNotes}
+                handleGeneratePassword={handleGeneratePassword}
                 password={password}
                 setPassword={setPassword}
                 checkPasswordStrength={checkPasswordStrength}
@@ -101,6 +130,7 @@ function App() {
               <WordPasswordGenerator
                 setPasswordHistory={setPasswordHistory}
                 passwordHistory={passwordHistory}
+                savePassword={savePassword} // Added the savePassword function as a prop
               />
             }
           />
@@ -119,7 +149,7 @@ function Home({
   checkPasswordStrength,
   copyToClipboard,
   notes,
-  setNotes
+  setNotes,
 }) {
   const handleCopyPassword = () => {
     copyToClipboard(password);
@@ -145,15 +175,13 @@ function Home({
         </div>
       </div>
 
-      <label htmlFor="notesInput">Notes:</label>
+      <label htmlFor="notesInput">Notes for Password:</label>
       <input
         id="notesInput"
         type="text"
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
       />
-
-<p>Note: Please enter any notes or context for this password before generating a new one.</p>
     </div>
   );
 }
