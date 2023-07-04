@@ -57,7 +57,8 @@ Contributions are always welcome! if you have any ideas, suggestions, or bug rep
 3. Commit your changes: 'git commit -m "Add some features"'.
 4. Push to the branch: 'git push origin features/my-features'.
 5. Open a pull request
-##server link
+   
+## Server Link
 https://github.com/Flash1105/server-for-password-generator
 
 ## License
